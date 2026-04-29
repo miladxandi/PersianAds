@@ -9,8 +9,9 @@
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <AssemblyName>PersianAds.Tapsell</AssemblyName>
     <AndroidManifest>Platforms\Android\AndroidManifest.xml</AndroidManifest>
+    <ApplicationIcon>tapsell_logo.jpg</ApplicationIcon>
     <Title>Tapsell Ads Service</Title>
-    <PackageIcon>icon.jpg</PackageIcon>
+    <PackageIcon>tapsell_logo.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/miladxandi/PersianAds</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -30,7 +31,14 @@
     <AndroidJavaSource Include="Platforms\Android\src\**\*.java" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="C:\Users\istock\Downloads\tapsell_logo.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PersianAds.Tapsell.Binding/PersianAds.Tapsell.Binding.csproj" />
+  <Project Path="PersianAds/PersianAds.csproj" />
+  <Project Path="Tapsell/Tapsell.csproj" />
+</Solution>

@@ -1,0 +1,28 @@
+﻿<metadata>
+  <!-- رفع CS0542: member/class name same as enclosing type -->
+  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DonutProgress.tpsla']" name="managedName">DonutProgressConfig</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DonutProgress.tpsla']/field[@name='tpsla']" name="managedName">ValueTpsla</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpsla.tpsla']" name="managedName">TpslaNested</attr>
+
+  <!-- رفع مشکل duplicate method names -->
+  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DilatingDotsProgressBar']/field[@name='tag']" name="managedName">TagField</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='StoreHandler']/method[@name='tpsla' and count(parameter)=1]" name="managedName">TpslaMethod1</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='StoreHandler']/method[@name='tpsla' and count(parameter)=2]" name="managedName">TpslaMethod2</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpslc']/method[@name='tpslb' and count(parameter)=0]" name="managedName">TpslbMethod1</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpslc']/method[@name='tpslb' and count(parameter)=1]" name="managedName">TpslbMethod2</attr>
+
+  <!-- رفع مشکل namespace collision -->
+  <attr path="/api/package[@name='ir.tapsell.sdk.models.platform']/class[@name='Platform']" name="managedName">PlatformType</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.models.requestModels.userExtraInfo']/class[@name='UserExtraInfo']" name="managedName">UserExtraInfoModel</attr>
+
+  <!-- حذف متدهایی که مشکل override دارن -->
+  <remove-node path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DilatingDotsProgressBar']/method[@name='onDetachedFromWindow']" />
+  <remove-node path="/api/package[@name='ir.tapsell.sdk.bannerads']/class[@name='TapsellBannerView']/method[@name='onRestoreInstanceState']" />
+  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views']/class[@name='RatioFrameLayout']/method[@name='onMeasure']" />
+  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views']/class[@name='RatioRelativeLayout']/method[@name='onMeasure']" />
+  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views.videoplayer']/class[@name='VideoContainer']/method[@name='onMeasure']" />
+
+  <!-- حذف کلاس‌های obsolete که مشکل دارن -->
+  <remove-node path="/api/package[@name='ir.tapsell.sdk']/interface[@name='ITapsellRewardListener']" />
+  <remove-node path="/api/package[@name='ir.tapsell.sdk']/class[@name='Tpsls']" />
+</metadata>

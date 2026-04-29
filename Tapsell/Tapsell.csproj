@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <UseMaui>true</UseMaui>
+    <_GradleSyncIsAndroid>true</_GradleSyncIsAndroid>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PersianAds.Tapsell</RootNamespace>
+    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+    <AssemblyName>PersianAds.Tapsell</AssemblyName>
+    <AndroidManifest>Platforms\Android\AndroidManifest.xml</AndroidManifest>
+    <ApplicationIcon>tapsell_logo.jpg</ApplicationIcon>
+    <Title>Tapsell </Title>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
+    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.51" />
+    <ProjectReference Include="..\PersianAds.Tapsell.Binding\PersianAds.Tapsell.Binding.csproj" />
+    <ProjectReference Include="..\PersianAds\PersianAds.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.xml" LogicalName="xml/network_security_config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidJavaSource Include="Platforms\Android\src\**\*.java" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tapsell_logo.jpg" />
+  </ItemGroup>
+
+</Project>

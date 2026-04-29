@@ -15,6 +15,7 @@
     <RepositoryUrl>https://github.com/miladxandi/PersianAds</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tapsell;Ads;Tapsell_Ads;Ads_ Service</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
@@ -31,6 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\icon.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

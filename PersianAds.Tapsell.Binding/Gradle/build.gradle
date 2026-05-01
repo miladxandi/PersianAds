@@ -5,14 +5,15 @@ plugins {
 repositories {
     google()
     mavenCentral()
-    maven { 
-        url = 'https://maven.myket.ir/'
+    maven {
+        url = 'https://maven.tapsell.ir/'
     }
 }
 
 configurations {
     tapsellDeps {
-        // ✅ حذف کامل همه AndroidX
+        // Let Xamarin/MAUI AndroidX packages provide these instead of embedding duplicate AARs.
+        exclude group: 'androidx.constraintlayout'
         exclude group: 'androidx.core'
         exclude group: 'androidx.customview'
         exclude group: 'androidx.activity'
@@ -21,97 +22,52 @@ configurations {
         exclude group: 'androidx.lifecycle'
         exclude group: 'androidx.annotation'
         exclude group: 'androidx.collection'
-        exclude group: 'androidx.viewpager'
-        exclude group: 'androidx.recyclerview'
-        exclude group: 'androidx.coordinatorlayout'
-        exclude group: 'androidx.drawerlayout'
-        exclude group: 'androidx.slidingpanelayout'
-        exclude group: 'androidx.swiperefreshlayout'
-        exclude group: 'androidx.asynclayoutinflater'
-        exclude group: 'androidx.cursoradapter'
-        exclude group: 'androidx.documentfile'
-        exclude group: 'androidx.interpolator'
-        exclude group: 'androidx.loader'
-        exclude group: 'androidx.localbroadcastmanager'
-        exclude group: 'androidx.print'
-        exclude group: 'androidx.versionedparcelable'
-        exclude group: 'androidx.exifinterface'
+        exclude group: 'androidx.startup'
         exclude group: 'androidx.tracing'
-        exclude group: 'androidx.vectordrawable'
-        exclude group: 'androidx.media'
         exclude group: 'androidx.media3'
-
-        // ✅ حذف Support Library قدیمی
         exclude group: 'com.android.support'
-        
-        // ✅ حذف Gson (چون داخل Tapsell bundled هست)
+
+        // Keep the resolved set focused on Tapsell mediation artifacts.
         exclude group: 'com.google.code.gson', module: 'gson'
-        
-        // ✅ حذف Guava & ListenableFuture (چون داخل Tapsell bundled هست)
         exclude group: 'com.google.guava'
         exclude group: 'com.google.common'
-        
-        // ✅ حذف Google Play Services (چون داخل Tapsell bundled هست)
         exclude group: 'com.google.android.gms'
-        
-        // ✅ حذف OkHttp & Okio (چون داخل Tapsell bundled هست)
-        exclude group: 'com.squareup.okhttp3'
-        exclude group: 'com.squareup.okio'
-        
-        // ✅ حذف Retrofit (چون داخل Tapsell bundled هست)
-        exclude group: 'com.squareup.retrofit2'
-        
-        // ✅ حذف Glide (چون داخل Tapsell bundled هست)
         exclude group: 'com.github.bumptech.glide'
-        
-        // ✅ حذف Kotlin (اگر نیاز نداری)
         exclude group: 'org.jetbrains.kotlin'
         exclude group: 'org.jetbrains.kotlinx'
-        
-        // ✅ Force resolution strategy
-        resolutionStrategy {
-            force 'androidx.exifinterface:exifinterface:1.3.7'
-        }
     }
 }
 
 dependencies {
-    tapsellDeps 'ir.tapsell.sdk:tapsell-sdk-android:4.9.15'
+    tapsellDeps 'ir.tapsell:tapsell:1.3.0-beta06'
+    tapsellDeps 'ir.tapsell:core:1.3.0-beta06'
+    tapsellDeps 'ir.tapsell.mediation:tapsell:1.3.0-beta06'
+    tapsellDeps 'ir.tapsell:sentry:1.3.0-beta06'
+    tapsellDeps 'com.squareup.okio:okio:1.12.0'
+    tapsellDeps 'com.squareup.okhttp3:okhttp:3.12.0'
+//     tapsellDeps 'com.squareup.retrofit2:retrofit:2.9.0'
+//     tapsellDeps 'com.squareup.retrofit2:retrofit-converters:2.6.3'
+//     tapsellDeps 'com.squareup.moshi:moshi:1.15.0'
+//     tapsellDeps 'com.squareup.moshi:moshi-kotlin:1.15.0'
 }
-
-task copyDeps(type: Copy) {
+tasks.register('copyDeps', Copy) {
     from configurations.tapsellDeps
-    into '..\\Jars\\'
-    
+    into '..\\Jars'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-// Task برای لیست کردن تمام dependency ها
-task listDependencies {
-    doLast {
-        configurations.each { config ->
-            if (config.canBeResolved) {
-                println "\n=== Configuration: ${config.name} ==="
-                config.resolvedConfiguration.resolvedArtifacts.each { artifact ->
-                    println "  ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
-                }
-            }
+    
+    doFirst {
+        delete fileTree('..\\Jars') {
+            include '**/*.jar'
+            include '**/*.aar'
         }
     }
 }
 
-// Task برای نمایش dependency tree
-task showDependencyTree {
-    doLast {
-        configurations.tapsellDeps.resolvedConfiguration.firstLevelModuleDependencies.each { dep ->
-            printDependency(dep, "")
-        }
-    }
-}
 
-def printDependency(dep, indent) {
-    println "${indent}${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}"
-    dep.children.each { child ->
-        printDependency(child, indent + "  ")
+tasks.register('listDeps') {
+    doLast {
+        configurations.tapsellDeps.resolvedConfiguration.resolvedArtifacts.each {
+            println "${it.moduleVersion.id}"
+        }
     }
 }

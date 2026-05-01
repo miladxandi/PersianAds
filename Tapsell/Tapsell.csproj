@@ -1,12 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0-android</TargetFramework>
-    <UseMaui>true</UseMaui>
-    <_GradleSyncIsAndroid>true</_GradleSyncIsAndroid>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>PersianAds.Tapsell</RootNamespace>
-    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <AssemblyName>PersianAds.Tapsell</AssemblyName>
     <AndroidManifest>Platforms\Android\AndroidManifest.xml</AndroidManifest>
     <Title>Tapsell Ads Service</Title>
@@ -16,24 +13,14 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tapsell;Ads;Tapsell_Ads;Ads_Service;Persian;Iran</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
-    <Version>1.0.26</Version>
-    <TapsellBindingOutputDir>..\PersianAds.Tapsell.Binding\bin\$(Configuration)\net10.0-android</TapsellBindingOutputDir>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput)</TargetsForTfmSpecificBuildOutput>
+    <Version>1.0.30</Version>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
-    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.51" />
-    <ProjectReference Include="..\PersianAds.Tapsell.Binding\PersianAds.Tapsell.Binding.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\PersianAds\PersianAds.csproj" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.5" />
   </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Platforms\Android\Resources\xml\network_security_config.xml" LogicalName="xml/network_security_config.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidJavaSource Remove="Platforms\Android\src\**\*.java" />
-    <None Include="Platforms\Android\src\**\*.java" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
@@ -43,28 +30,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="buildTransitive\PersianAds.Tapsell.targets">
-      <Pack>True</Pack>
-      <PackagePath>buildTransitive\</PackagePath>
-    </None>
-    <None Include="$(TapsellBindingOutputDir)\*.aar">
-      <Pack>True</Pack>
-      <PackagePath>buildTransitive\android-libs\</PackagePath>
-      <Visible>false</Visible>
-    </None>
-    <None Include="$(TapsellBindingOutputDir)\*.jar">
-      <Pack>True</Pack>
-      <PackagePath>buildTransitive\android-libs\</PackagePath>
-      <Visible>false</Visible>
-    </None>
-    
   </ItemGroup>
 
-  <Target Name="IncludeReferencedProjectsInPackage" DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <!-- Pack the referenced project outputs into this NuGet so consumers only install PersianAds.Tapsell. -->
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-    </ItemGroup>
-  </Target>
-
+  <ItemGroup>
+    <ProjectReference Include="..\PersianAds.Tapsell.Binding\PersianAds.Tapsell.Binding.csproj" />
+  </ItemGroup>
 </Project>

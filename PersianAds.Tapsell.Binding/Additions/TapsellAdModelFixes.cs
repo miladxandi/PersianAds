@@ -1,53 +1,9 @@
-using Android.Runtime;
-using IR.Tapsell.Sdk.Models.Suggestions;
-using Java.Interop;
-
-namespace IR.Tapsell.Sdk.Models.TapsellModel
+namespace IR.Tapsell.Mediation
 {
-    public partial class TapsellDirectAdModel
-    {
-        protected override Java.Lang.Object? RawAdSuggestion
-        {
-            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;", "")]
-            get => AdSuggestion;
-            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;)V", "")]
-            set => AdSuggestion = value as DirectAdSuggestion;
-        }
-    }
-
-    public partial class TapsellNativeBannerAdModel
-    {
-        protected override Java.Lang.Object? RawAdSuggestion
-        {
-            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/NativeBannerAdSuggestion;", "")]
-            get => AdSuggestion;
-            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/NativeBannerAdSuggestion;)V", "")]
-            set => AdSuggestion = value as NativeBannerAdSuggestion;
-        }
-    }
-
-    public partial class TapsellNativeVideoAdModel
-    {
-        protected override Java.Lang.Object? RawAdSuggestion
-        {
-            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/NativeVideoAdSuggestion;", "")]
-            get => AdSuggestion;
-            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/NativeVideoAdSuggestion;)V", "")]
-            set => AdSuggestion = value as NativeVideoAdSuggestion;
-        }
-    }
-}
-
-namespace IR.Tapsell.Sdk
-{
-    public partial class TapsellAd
-    {
-        protected override Java.Lang.Object? RawAdSuggestion
-        {
-            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;", "")]
-            get => AdSuggestion;
-            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;)V", "")]
-            set => AdSuggestion = value as DirectAdSuggestion;
-        }
-    }
+    // The current tapsell-1.3.0-beta06 AAR exposes billboard types under
+    // IR.Tapsell.Mediation.Billboard.* and does not include the deprecated
+    // tapsell.sdk TapsellAd/TapsellAdModel classes.
+    //
+    // Keep this additions file as a mediation-root placeholder so future
+    // partial fixes can be added without reintroducing the old SDK types.
 }

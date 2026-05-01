@@ -1,4 +1,4 @@
-namespace PersianAds.Models;
+namespace PersianAds.Tapsell.Models;
 
 public sealed record AdNetworkInitializationOptions(
     string AppId,

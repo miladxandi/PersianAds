@@ -4,19 +4,28 @@
     <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--
-      Enable trim analyzers for Android class libraries.
-      To learn more, see: https://learn.microsoft.com/dotnet/core/deploying/trimming/prepare-libraries-for-trimming
-    -->
     <IsTrimmable>true</IsTrimmable>
-    <!--
-      NOTE: you can simply add .aar or .jar files in this directory to be included in the project.
-      To learn more, see: https://learn.microsoft.com/dotnet/maui/migration/android-binding-projects
-    -->
   </PropertyGroup>
+
   <ItemGroup>
-    
-    <AndroidLibrary Include="Jars\tapsell-sdk-android-4.9.15.aar" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.7.0.3" />
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0.1" />
+    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.8.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.9.3.1" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.8.7.1" />
+    <!-- Bind only the Tapsell API surface; keep support libraries runtime-only. -->
+    <AndroidLibrary Update="Jars\**\*.aar" Bind="false" />
+    <AndroidLibrary Update="Jars\**\*.jar" Bind="false" />
+    <AndroidLibrary Update="Jars\tapsell-*.aar" Bind="true" />
     <TransformFile Include="Transforms\Metadata.xml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Gradle\build\" />
+  </ItemGroup>
+
+
+<!--  <ItemGroup>-->
+<!--    <Folder Include="Gradle\libs\" />-->
+<!--  </ItemGroup>-->
 </Project>

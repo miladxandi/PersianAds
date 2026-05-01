@@ -1,28 +1,45 @@
-﻿<metadata>
-  <!-- رفع CS0542: member/class name same as enclosing type -->
-  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DonutProgress.tpsla']" name="managedName">DonutProgressConfig</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DonutProgress.tpsla']/field[@name='tpsla']" name="managedName">ValueTpsla</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpsla.tpsla']" name="managedName">TpslaNested</attr>
+<metadata>
+  <!-- 1. رفع ابهام از نام‌های کلاس‌ها و فیلدهای Tapsell (نام‌های کوتاه جاوا که در C# تداخل دارند) -->
+  <attr path="/api/package[@name='ir.tapsell.mediation.internal']/class[@name='tpsla']/field[@name='tpsla']" name="managedName">Values</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.ad.request.state']/class[@name='tpsla']/field[@name='tpsla']" name="managedName">AdNetworkName</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.ad.request.state']/class[@name='tpslc']/field[@name='tpslc']" name="managedName">Items</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.utils']/class[@name='tpsla']/field[@name='tpsla']" name="managedName">BundleValue</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.adnetwork.config']/class[@name='tpslb']/field[@name='tpslb']" name="managedName">InternalConfig</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.adnetwork']/class[@name='tpsla']/field[@name='tpsla']" name="managedName">Instance</attr>
+  <attr path="/api/package[@name='ir.tapsell.mediation.adnetwork.adapter']/class[@name='tpsld']/field[@name='tpsld']" name="managedName">Entries</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpsla.tpsla']" name="managedName">Builder</attr>
+  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DonutProgress.tpsla']/field[@name='tpsla']" name="managedName">Value</attr>
 
-  <!-- رفع مشکل duplicate method names -->
-  <attr path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DilatingDotsProgressBar']/field[@name='tag']" name="managedName">TagField</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='StoreHandler']/method[@name='tpsla' and count(parameter)=1]" name="managedName">TpslaMethod1</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='StoreHandler']/method[@name='tpsla' and count(parameter)=2]" name="managedName">TpslaMethod2</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpslc']/method[@name='tpslb' and count(parameter)=0]" name="managedName">TpslbMethod1</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.purchaseUtil']/class[@name='tpslc']/method[@name='tpslb' and count(parameter)=1]" name="managedName">TpslbMethod2</attr>
+  <!-- 2. حذف نودهای مزاحم که باعث ایجاد کدهای نامعتبر در سی‌شارپ می‌شوند -->
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.ad.request']/class[@name='tpslt']" />
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.adnetwork.adapter']/class[@name='tpslt']" />
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.adnetwork.adapter']/class[@name='tpslp']" />
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.adnetwork.adapter']/class[@name='tpslu']" />
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.adnetwork.adapter']/class[@name='tpslq']" />
+  <remove-node path="/api/package[@name='ir.tapsell.mediation.proxy']/class[@name='tpslc']" />
 
-  <!-- رفع مشکل namespace collision -->
-  <attr path="/api/package[@name='ir.tapsell.sdk.models.platform']/class[@name='Platform']" name="managedName">PlatformType</attr>
-  <attr path="/api/package[@name='ir.tapsell.sdk.models.requestModels.userExtraInfo']/class[@name='UserExtraInfo']" name="managedName">UserExtraInfoModel</attr>
+  <!-- 3. اصلاح Interface مربوط به رضایت کاربر (GDPR) برای رفع خطای Not Abstract -->
+  <attr path="/api/package[@name='mono.ir.tapsell.mediation.gdpr']/class[@name='UserConsentListenerImplementor']" name="visibility">public</attr>
+  <attr path="/api/package[@name='mono.ir.tapsell.mediation.gdpr']/class[@name='UserConsentListenerImplementor']/method[@name='onConsentChanged']" name="managedReturn">void</attr>
 
-  <!-- حذف متدهایی که مشکل override دارن -->
-  <remove-node path="/api/package[@name='ir.tapsell.sdk.advertiser.views']/class[@name='DilatingDotsProgressBar']/method[@name='onDetachedFromWindow']" />
-  <remove-node path="/api/package[@name='ir.tapsell.sdk.bannerads']/class[@name='TapsellBannerView']/method[@name='onRestoreInstanceState']" />
-  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views']/class[@name='RatioFrameLayout']/method[@name='onMeasure']" />
-  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views']/class[@name='RatioRelativeLayout']/method[@name='onMeasure']" />
-  <remove-node path="/api/package[@name='ir.tapsell.sdk.nativeads.views.videoplayer']/class[@name='VideoContainer']/method[@name='onMeasure']" />
+  <!-- 4. حذف تمام کلاس‌های R تکراری که باعث خطای JAVAC0000 شده‌اند -->
+  <!-- حذف ریشه کلاس R تمام زیرمجموعه‌ها (id, attr, layout و غیره) را هم حذف می‌کند -->
+  <remove-node path="/api/package[@name='androidx.activity']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.appcompat']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.appcompat.resources']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.core']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.fragment']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.recyclerview']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.constraintlayout.widget']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.cardview']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.coordinatorlayout']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.drawerlayout']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.viewpager']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.viewpager2']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.swiperefreshlayout']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.work']/class[@name='R']" />
+  <remove-node path="/api/package[@name='androidx.media3']/class[@name='R']" />
 
-  <!-- حذف کلاس‌های obsolete که مشکل دارن -->
-  <remove-node path="/api/package[@name='ir.tapsell.sdk']/interface[@name='ITapsellRewardListener']" />
-  <remove-node path="/api/package[@name='ir.tapsell.sdk']/class[@name='Tpsls']" />
+  <!-- حذف کلاس R احتمالی خودِ پکیج تپسل برای پیشگیری از تداخل -->
+  <remove-node path="/api/package[@name='ir.tapsell.mediation']/class[@name='R']" />
 </metadata>

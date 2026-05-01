@@ -1,16 +1,6 @@
 using Android.Runtime;
-
-namespace IR.Tapsell.Sdk
-{
-    public partial class TapsellAd
-    {
-        protected override Java.Lang.Object? RawAdSuggestion
-        {
-            get => AdSuggestion;
-            set => AdSuggestion = value as IR.Tapsell.Sdk.Models.Suggestions.DirectAdSuggestion;
-        }
-    }
-}
+using IR.Tapsell.Sdk.Models.Suggestions;
+using Java.Interop;
 
 namespace IR.Tapsell.Sdk.Models.TapsellModel
 {
@@ -18,8 +8,10 @@ namespace IR.Tapsell.Sdk.Models.TapsellModel
     {
         protected override Java.Lang.Object? RawAdSuggestion
         {
+            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;", "")]
             get => AdSuggestion;
-            set => AdSuggestion = value as IR.Tapsell.Sdk.Models.Suggestions.DirectAdSuggestion;
+            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;)V", "")]
+            set => AdSuggestion = value as DirectAdSuggestion;
         }
     }
 
@@ -27,8 +19,10 @@ namespace IR.Tapsell.Sdk.Models.TapsellModel
     {
         protected override Java.Lang.Object? RawAdSuggestion
         {
+            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/NativeBannerAdSuggestion;", "")]
             get => AdSuggestion;
-            set => AdSuggestion = value as IR.Tapsell.Sdk.Models.Suggestions.NativeBannerAdSuggestion;
+            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/NativeBannerAdSuggestion;)V", "")]
+            set => AdSuggestion = value as NativeBannerAdSuggestion;
         }
     }
 
@@ -36,8 +30,24 @@ namespace IR.Tapsell.Sdk.Models.TapsellModel
     {
         protected override Java.Lang.Object? RawAdSuggestion
         {
+            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/NativeVideoAdSuggestion;", "")]
             get => AdSuggestion;
-            set => AdSuggestion = value as IR.Tapsell.Sdk.Models.Suggestions.NativeVideoAdSuggestion;
+            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/NativeVideoAdSuggestion;)V", "")]
+            set => AdSuggestion = value as NativeVideoAdSuggestion;
+        }
+    }
+}
+
+namespace IR.Tapsell.Sdk
+{
+    public partial class TapsellAd
+    {
+        protected override Java.Lang.Object? RawAdSuggestion
+        {
+            [Register("getAdSuggestion", "()Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;", "")]
+            get => AdSuggestion;
+            [Register("setAdSuggestion", "(Lir/tapsell/sdk/models/suggestions/DirectAdSuggestion;)V", "")]
+            set => AdSuggestion = value as DirectAdSuggestion;
         }
     }
 }

@@ -2,9 +2,15 @@
 
 This guide shows how a MAUI Android app is expected to use `PersianAds.Tapsell`.
 
+If you specifically need to provide a mediation manifest key such as `TapsellMediationAppKey`, see `docs/tapsell-mediation-app-key.md`.
+
 Important: the public API shown here is the intended consumer-facing shape of the SDK. If the NuGet package is not published yet, use a local project reference until packaging is ready.
 
 ## Package install
+
+Important package note:
+- use `PersianAds.Tapsell` `1.0.11` or later for NuGet-based Android app consumption
+- avoid `1.0.10` in consumer apps; that package did not include the native Tapsell Android artifacts required at build time, which can cause missing `ir.tapsell.sdk.*` and `ir.tapsell.mediation.*` Java package errors
 
 ### Option 1: Install from NuGet
 
@@ -20,6 +26,16 @@ Or by CLI:
 
 ```bash
 dotnet add package PersianAds.Tapsell --version <VERSION>
+```
+
+After upgrading from `1.0.10` to `1.0.11` or later, clear the old package cache before rebuilding if your app still resolves the previous broken package contents.
+
+Examples:
+
+```bash
+dotnet nuget locals global-packages --clear
+dotnet restore
+dotnet build -f net10.0-android
 ```
 
 ### Option 2: Use a local project reference
@@ -42,6 +58,8 @@ Make sure your app:
 - has a valid Tapsell `AppId`
 - uses valid zone IDs for each ad format
 - requests the required ad formats from the Tapsell dashboard
+
+For NuGet consumers, the package now carries the required Android native dependencies transitively. You should not need to add manual Maven repository entries just to satisfy Tapsell Java references.
 
 ## Register the SDK in `MauiProgram.cs`
 

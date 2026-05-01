@@ -18,6 +18,10 @@ Planned next:
 - `docs/`: extra integration notes
 - `AGENTS.md`: repo-specific implementation and delivery rules
 
+Integration guides:
+- `docs/android-usage.md`: end-to-end MAUI Android usage
+- `docs/tapsell-mediation-app-key.md`: how to provide `TapsellMediationAppKey` from a consuming app
+
 ## Current implementation status
 
 Implemented in `Tapsell/` for Android:
@@ -60,6 +64,14 @@ When the package is published, usage is intended to look like this:
 ```
 
 If you are not consuming a published package yet, use the local project approach for now.
+
+## NuGet packaging status
+
+Current package status:
+- `PersianAds.Tapsell` `1.0.11` includes the Android `.aar` and `.jar` dependencies required by the Tapsell binding
+- `PersianAds.Tapsell` `1.0.10` is not safe for consumer projects because it did not carry the native Android artifacts into the NuGet package
+
+If a consuming Android app fails with missing `ir.tapsell.sdk.*` or `ir.tapsell.mediation.*` Java packages while using the NuGet package, upgrade to `1.0.11` or later and clear the old NuGet cache before rebuilding.
 
 ## Android requirements
 

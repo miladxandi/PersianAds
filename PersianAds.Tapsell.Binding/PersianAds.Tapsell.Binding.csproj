@@ -13,6 +13,9 @@
     <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.8.5.1" />
     <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.9.3.1" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.8.7.1" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.5.0" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Basement" Version="118.4.0" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Tasks" Version="118.2.0" />
     <!-- Bind only the Tapsell API surface; keep support libraries runtime-only. -->
     <AndroidLibrary Update="Jars\**\*.aar" Bind="false" />
     <AndroidLibrary Update="Jars\**\*.jar" Bind="false" />

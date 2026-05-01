@@ -17,7 +17,7 @@
     <PackageTags>Tapsell;Ads;Tapsell_Ads;Ads_Service;Persian;Iran</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectsInPackage</TargetsForTfmSpecificBuildOutput>
-    <Version>1.0.20</Version>
+    <Version>1.0.26</Version>
     <TapsellBindingOutputDir>..\PersianAds.Tapsell.Binding\bin\$(Configuration)\net10.0-android</TapsellBindingOutputDir>
   </PropertyGroup>
   <ItemGroup>

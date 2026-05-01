@@ -38,9 +38,35 @@ configurations {
         exclude group: 'androidx.exifinterface'
         exclude group: 'androidx.tracing'
         exclude group: 'androidx.vectordrawable'
+        exclude group: 'androidx.media'
+        exclude group: 'androidx.media3'
 
         // ✅ حذف Support Library قدیمی
         exclude group: 'com.android.support'
+        
+        // ✅ حذف Gson (چون داخل Tapsell bundled هست)
+        exclude group: 'com.google.code.gson', module: 'gson'
+        
+        // ✅ حذف Guava & ListenableFuture (چون داخل Tapsell bundled هست)
+        exclude group: 'com.google.guava'
+        exclude group: 'com.google.common'
+        
+        // ✅ حذف Google Play Services (چون داخل Tapsell bundled هست)
+        exclude group: 'com.google.android.gms'
+        
+        // ✅ حذف OkHttp & Okio (چون داخل Tapsell bundled هست)
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+        
+        // ✅ حذف Retrofit (چون داخل Tapsell bundled هست)
+        exclude group: 'com.squareup.retrofit2'
+        
+        // ✅ حذف Glide (چون داخل Tapsell bundled هست)
+        exclude group: 'com.github.bumptech.glide'
+        
+        // ✅ حذف Kotlin (اگر نیاز نداری)
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.jetbrains.kotlinx'
         
         // ✅ Force resolution strategy
         resolutionStrategy {
@@ -58,4 +84,34 @@ task copyDeps(type: Copy) {
     into '..\\Jars\\'
     
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Task برای لیست کردن تمام dependency ها
+task listDependencies {
+    doLast {
+        configurations.each { config ->
+            if (config.canBeResolved) {
+                println "\n=== Configuration: ${config.name} ==="
+                config.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+                    println "  ${artifact.moduleVersion.id.group}:${artifact.moduleVersion.id.name}:${artifact.moduleVersion.id.version}"
+                }
+            }
+        }
+    }
+}
+
+// Task برای نمایش dependency tree
+task showDependencyTree {
+    doLast {
+        configurations.tapsellDeps.resolvedConfiguration.firstLevelModuleDependencies.each { dep ->
+            printDependency(dep, "")
+        }
+    }
+}
+
+def printDependency(dep, indent) {
+    println "${indent}${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}"
+    dep.children.each { child ->
+        printDependency(child, indent + "  ")
+    }
 }

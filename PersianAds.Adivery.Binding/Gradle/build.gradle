@@ -1,0 +1,54 @@
+﻿plugins {
+    id 'java'
+}
+
+repositories {
+    maven {
+        url = 'https://maven.myket.ir/'
+    }
+    google()
+    mavenCentral()
+}
+
+configurations {
+    adiveryDeps {
+        // حذف وابستگی‌های Kotlin
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.jetbrains.kotlinx'
+        
+        // حذف OkHttp و Okio
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+    }
+}
+
+dependencies {
+    adiveryDeps("com.adivery:sdk:4.8.8") {
+        // اگر exclude بالا کافی نبود، اینجا هم می‌تونیم exclude کنیم
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.jetbrains.kotlinx'
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.squareup.okio'
+    }
+}
+
+tasks.register('copyDeps', Copy) {
+    from configurations.adiveryDeps
+    into '..\\Jars'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    doFirst {
+        delete fileTree('..\\Jars') {
+            include '**/*.jar'
+            include '**/*.aar'
+        }
+    }
+}
+
+tasks.register('listDeps') {
+    doLast {
+        configurations.adiveryDeps.resolvedConfiguration.resolvedArtifacts.each {
+            println "${it.moduleVersion.id}"
+        }
+    }
+}

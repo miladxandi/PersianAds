@@ -1,6 +1,6 @@
 using PersianAds.Tapsell.Abstractions;
 using PersianAds.Tapsell.Models;
-
+using IR.Tapsell.Mediation;
 namespace PersianAds.Tapsell;
 
 public sealed class TapsellService : ITapsellService
@@ -50,6 +50,7 @@ public sealed class TapsellService : ITapsellService
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+
 
         var appId = ResolveAppId(options);
         if (string.IsNullOrWhiteSpace(appId))

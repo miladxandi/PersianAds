@@ -1,0 +1,20 @@
+﻿<metadata>
+  <!-- حذف متدهای synthetic -->
+  <remove-node path="/api/package/class/method[@name='copy']" />
+
+  <!-- حذف تمام پکیج‌های Kotlin و OkHttp/Okio -->
+  <remove-node path="/api/package[@name='kotlin']" />
+  <remove-node path="/api/package[@name='kotlin.jvm']" />
+  <remove-node path="/api/package[@name='kotlin.jvm.internal']" />
+  <remove-node path="/api/package[@name='kotlinx.coroutines']" />
+  <remove-node path="/api/package[@name='okhttp3']" />
+  <remove-node path="/api/package[@name='okio']" />
+
+  <!-- حذف کلاس‌های obfuscated که خطا ایجاد می‌کنند -->
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='L0']" />
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='K0']" />
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='C0']" />
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='D']" />
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='J']" />
+  <remove-node path="/api/package[@name='com.adivery.sdk']/class[@name='S']" />
+</metadata>

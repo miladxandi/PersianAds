@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="Adivery/PersianAds.Adivery.csproj" Id="55f454e2-fe56-4d6d-b23a-178b59a80923" />
+  <Project Path="PersianAds.Adivery.Binding/PersianAds.Adivery.Binding.csproj" Id="d87bd51b-b40e-4c67-b357-e811b75ae150" />
   <Project Path="PersianAds.Tapsell.Binding/PersianAds.Tapsell.Binding.csproj" />
-  <Project Path="Tapsell/Tapsell.csproj" />
+  <Project Path="Tapsell/PersianAds.Tapsell.csproj" />
 </Solution>

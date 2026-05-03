@@ -9,6 +9,9 @@ public sealed class TapsellService : ITapsellService
 
     private readonly TapsellOptions _options;
     private readonly Dictionary<string, string> _pendingRewardedAds = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> _pendingInterstitialAds = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> _pendingNativeAds = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, string> _pendingPreRollAds = new(StringComparer.Ordinal);
     private Action? _initializationListener;
     private bool _userConsent;
     private string? _resolvedAppId;
@@ -106,6 +109,157 @@ public sealed class TapsellService : ITapsellService
         Log($"ShowRewardedAsync completed. zoneId={zoneId}, adId={adId}");
 
         Rewarded?.Invoke(this, new TapsellRewardedEventArgs(zoneId, adId, completed: true));
+    }
+
+    public async Task<AdRequestResult> RequestInterstitialAsync(
+        string zoneId,
+        AdRequestOptions? options = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        var adId = $"{zoneId}:{Guid.NewGuid():N}";
+        _pendingInterstitialAds[zoneId] = adId;
+        Log($"RequestInterstitialAsync succeeded. zoneId={zoneId}, adId={adId}");
+        return new AdRequestResult(zoneId, adId);
+    }
+
+    public async Task ShowInterstitialAsync(
+        string zoneId,
+        string adId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        adId = NormalizeRequired(adId, nameof(adId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        if (_pendingInterstitialAds.TryGetValue(zoneId, out var pendingAdId) && !string.Equals(pendingAdId, adId, StringComparison.Ordinal))
+        {
+            Log($"ShowInterstitialAsync received a different ad id than the last requested one. zoneId={zoneId}, requested={pendingAdId}, received={adId}");
+        }
+
+        _pendingInterstitialAds.Remove(zoneId);
+        Log($"ShowInterstitialAsync completed. zoneId={zoneId}, adId={adId}");
+    }
+
+    public async Task LoadBannerAsync(
+        string zoneId,
+        BannerAdSize size,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        var adId = $"{zoneId}:banner:{size}";
+        _pendingInterstitialAds[zoneId] = adId;
+        Log($"LoadBannerAsync succeeded. zoneId={zoneId}, size={size}, adId={adId}");
+    }
+
+    public async Task ShowBannerAsync(string zoneId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        Log($"ShowBannerAsync called. zoneId={zoneId}");
+    }
+
+    public async Task HideBannerAsync(string zoneId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        Log($"HideBannerAsync called. zoneId={zoneId}");
+    }
+
+    public async Task<NativeAdResult> RequestNativeAsync(
+        string zoneId,
+        NativeAdRequestOptions? options = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        var format = options?.Format ?? NativeAdFormat.Banner;
+        var count = options?.Count ?? 1;
+        var adIds = new List<string>();
+
+        for (int i = 0; i < count; i++)
+        {
+            adIds.Add($"{zoneId}:native:{format}:{Guid.NewGuid():N}");
+        }
+
+        _pendingNativeAds[zoneId] = adIds[0];
+        Log($"RequestNativeAsync succeeded. zoneId={zoneId}, format={format}, count={count}");
+        return new NativeAdResult(zoneId, adIds.AsReadOnly());
+    }
+
+    public async Task ShowNativeAsync(
+        string zoneId,
+        string adId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        adId = NormalizeRequired(adId, nameof(adId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        Log($"ShowNativeAsync called. zoneId={zoneId}, adId={adId}");
+    }
+
+    public async Task<AdRequestResult> RequestPreRollAsync(
+        string zoneId,
+        PreRollRequestOptions? options = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        var adId = $"{zoneId}:preroll:{Guid.NewGuid():N}";
+        _pendingPreRollAds[zoneId] = adId;
+        Log($"RequestPreRollAsync succeeded. zoneId={zoneId}, adId={adId}");
+        return new AdRequestResult(zoneId, adId);
+    }
+
+    public async Task<string> GetPreRollVastUrlAsync(string adId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        adId = NormalizeRequired(adId, nameof(adId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        var vastUrl = $"https://vast.tapsell.ir/preroll/{adId}";
+        Log($"GetPreRollVastUrlAsync returned. adId={adId}, vastUrl={vastUrl}");
+        return vastUrl;
+    }
+
+    public async Task ShowPreRollAsync(
+        string zoneId,
+        string adId,
+        PreRollShowOptions? options = null,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        zoneId = NormalizeRequired(zoneId, nameof(zoneId));
+        adId = NormalizeRequired(adId, nameof(adId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        Log($"ShowPreRollAsync called. zoneId={zoneId}, adId={adId}, contentUrl={options?.ContentUrl ?? "none"}");
+    }
+
+    public async Task DestroyPreRollAsync(string adId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        adId = NormalizeRequired(adId, nameof(adId));
+        await EnsureInitializedAsync(cancellationToken);
+
+        Log($"DestroyPreRollAsync called. adId={adId}");
     }
 
     private async Task EnsureInitializedAsync(CancellationToken cancellationToken)
